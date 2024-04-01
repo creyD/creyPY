@@ -1,5 +1,8 @@
 from setuptools import find_packages, setup
 
+with open("requirements.txt") as f:
+    requirements = f.read().splitlines()
+
 setup(
     name="creyPY",
     version="0.0.9",
@@ -10,4 +13,5 @@ setup(
     url="https://github.com/creyD/creyPY",
     license="MIT",
     python_requires=">=3.12",
+    install_requires=requirements,
 )
