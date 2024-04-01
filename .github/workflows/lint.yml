@@ -1,0 +1,29 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - dev
+      - master
+    paths-ignore:
+      - "**/.github/**"
+      - "**/.gitignore"
+      - "**/.vscode/**"
+      - "**/README.md"
+      - "**/CHANGELOG.md"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: psf/black@stable
+      with:
+        options: "-l 100 --exclude '/.venv/|/__init__.py'"
+    - uses: creyD/autoflake_action@master
+      with:
+        no_commit: True
+        options: --in-place --remove-all-unused-imports -r --exclude **/__init__.py,**/db/models.py,
+    - uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: Adjusted files for isort & autopep
