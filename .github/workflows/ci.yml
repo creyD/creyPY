@@ -1,4 +1,4 @@
-name: Lint and tag
+name: Lint, Test, Tag & Publish
 
 on:
   push:
@@ -63,3 +63,27 @@ jobs:
 
       - name: Push Tag
         run: git push origin ${{ steps.git_version.outputs.version }}
+
+  publish:
+    needs: tag
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.build.txt
+
+    - name: Build and publish
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}
+
