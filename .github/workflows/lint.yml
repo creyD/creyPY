@@ -49,5 +49,8 @@ jobs:
       - name: Create Tag
         run: git tag -a v${{ steps.git_version.outputs.version }} -m "v${{ steps.git_version.outputs.version }}"
 
-      - name: Push Tag
-        run: git push origin v${{ steps.git_version.outputs.version }}
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Adjusted files for isort & autopep
+          commit_options: --tags
+
