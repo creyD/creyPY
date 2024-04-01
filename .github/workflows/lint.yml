@@ -1,9 +1,8 @@
-name: Lint
+name: Lint and tag
 
 on:
   push:
     branches:
-      - dev
       - master
     paths-ignore:
       - "**/.github/**"
@@ -27,3 +26,21 @@ jobs:
     - uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: Adjusted files for isort & autopep
+
+  tag:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:        
+      - name: Git Version
+        uses: codacy/git-version@2.8.0
+        id: git_version
+        with:
+          prefix: v
+          minor-identifier: "feat:"
+          major-identifier: "breaking:"
+
+      - name: Create Tag
+        run: git tag -a v${{ steps.git_version.outputs.version }} -m "v${{ steps.git_version.outputs.version }}"
+
+      - name: Push Tag
+        run: git push origin v${{ steps.git_version.outputs.version }}
