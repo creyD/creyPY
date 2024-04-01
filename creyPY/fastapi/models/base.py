@@ -20,7 +20,7 @@ class Base:
     __name__: str
 
     # TODO: Add default representation string
-    # TODO: Add automated foreign key generation
+    # TODO: Add automated foreign key resolution
 
     # Generate __tablename__ automatically
     @declared_attr
