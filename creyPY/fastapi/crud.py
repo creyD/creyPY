@@ -5,7 +5,9 @@ from fastapi import HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-T = TypeVar("T")  # TODO: bound=Base
+from .models.base import Base
+
+T = TypeVar("T", bound=Base)
 
 
 def get_object_or_404(db_class: Type[T], id: UUID | str, db: Session, expunge: bool = False) -> T:
