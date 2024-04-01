@@ -10,6 +10,7 @@ T = TypeVar("T")
 
 
 # TODO: Add complete fastapi-pagination proxy here
+# TODO: Add pagination off functionality
 # SkipJsonSchema is used to avoid generating invalid JSON schema in FastAPI
 class Page(AbstractPage[T], Generic[T]):
     results: Sequence[T]
