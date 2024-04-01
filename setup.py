@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="creyPY",
-    version="0.0.8",
+    version="0.0.9",
     description="My collection of Python and FastAPI shortcuts etc.",
     author="Conrad Großer",
     author_email="conrad@noah.tech",
