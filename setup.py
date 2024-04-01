@@ -24,6 +24,7 @@ setup(
     name="creyPY",
     version=get_latest_git_tag(),
     description="Collection of my Python and FastAPI shortcuts, snippets etc.",
+    long_description=open("README.md").read(),
     author="Conrad Großer",
     author_email="conrad@noah.tech",
     packages=find_packages(),
