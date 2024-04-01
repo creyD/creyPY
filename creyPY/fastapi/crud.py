@@ -19,6 +19,7 @@ def get_object_or_404(db_class: Type[T], id: UUID | str, db: Session, expunge: b
     return obj
 
 
+# TODO: Add testing
 def create_obj_from_data(
     data: BaseModel, model: Type[T], db: Session, additonal_data={}, exclude={}
 ) -> T:
@@ -29,6 +30,7 @@ def create_obj_from_data(
     return obj
 
 
+# TODO: Add testing
 def update_obj_from_data(
     data: BaseModel,
     model: Type[T],
@@ -50,6 +52,7 @@ def update_obj_from_data(
     return obj
 
 
+# TODO: Add testing
 def delete_object(db_class: Type[T], id: UUID | str, db: Session) -> None:
     obj = db.query(db_class).filter(db_class.id == id).one_or_none()
     if obj is None:
