@@ -66,8 +66,10 @@ jobs:
       - name: Create Tag
         run: git tag ${{ steps.git_version.outputs.version }}
 
-      - name: Push Tag
-        run: git push origin ${{ steps.git_version.outputs.version }}
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Add new tag
+          push_options: --tags
 
       - name: Set up Python
         uses: actions/setup-python@v5
