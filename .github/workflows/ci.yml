@@ -45,6 +45,7 @@ jobs:
     needs: test
     permissions:
       id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
+      contents: write # for the tags
 
     steps:
       - uses: actions/checkout@v4
@@ -55,8 +56,8 @@ jobs:
 
       - name: setup git
         run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "15138480+creyD@users.noreply.github.com"
+          git config --local user.name "creyD"
 
       - name: Git Version
         uses: codacy/git-version@2.8.0
