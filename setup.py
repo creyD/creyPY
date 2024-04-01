@@ -25,6 +25,7 @@ setup(
     version=get_latest_git_tag(),
     description="Collection of my Python and FastAPI shortcuts, snippets etc.",
     long_description=open("README.md").read(),
+    long_description_content_type="text/markdown",
     author="Conrad Großer",
     author_email="conrad@noah.tech",
     packages=find_packages(),
