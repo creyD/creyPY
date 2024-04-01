@@ -1,18 +1,14 @@
 import unittest
-from typing import Type, Union
 from uuid import UUID
 
 from fastapi import HTTPException
 from fastapi.routing import APIRoute
 from sqlalchemy import create_engine
-from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.orm import sessionmaker
 
 from creyPY.fastapi.app import generate_unique_id
 from creyPY.fastapi.crud import (
-    create_obj_from_data,
-    delete_object,
     get_object_or_404,
-    update_obj_from_data,
 )
 from creyPY.fastapi.models.base import Base
 
