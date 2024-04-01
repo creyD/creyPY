@@ -23,7 +23,7 @@ def get_latest_git_tag() -> str:
 setup(
     name="creyPY",
     version=get_latest_git_tag(),
-    description="My collection of Python and FastAPI shortcuts etc.",
+    description="Collection of my Python and FastAPI shortcuts, snippets etc.",
     author="Conrad Großer",
     author_email="conrad@noah.tech",
     packages=find_packages(),
