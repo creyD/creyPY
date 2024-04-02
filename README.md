@@ -55,3 +55,8 @@ from creyPY.const import LanguageEnum
 print(LanguageEnum.EN) # Output: LanguageEnum.EN
 print(LanguageEnum.EN.value) # Output: English
 ``` 
+
+
+## TODO
+
+- Add async support for database connection
