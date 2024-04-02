@@ -1,6 +1,7 @@
 import enum
 
 
+# Source: https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
 class CountryEnum(str, enum.Enum):
     AF = "Afghanistan"
     AX = "land Islands"
@@ -248,6 +249,7 @@ class CountryEnum(str, enum.Enum):
     ZW = "Zimbabwe"
 
 
+# :: https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
 class LanguageEnum(str, enum.Enum):
     AA = "Afar"
     AB = "Abkhazian"
