@@ -33,4 +33,14 @@ setup(
     license="MIT",
     python_requires=">=3.12",
     install_requires=requirements,
+    keywords=[
+        "creyPY",
+        "Python",
+        "FastAPI",
+        "shortcuts",
+        "snippets",
+        "utils",
+        "personal library",
+    ],
+    platforms="any",
 )

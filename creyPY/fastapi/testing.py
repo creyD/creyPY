@@ -7,21 +7,23 @@ class GenericClient(TestClient):
     def __init__(self, client):
         self.c = TestClient(client)
 
-    def get(self, url: str, r_code:int =200, parse_json=True):
+    def get(self, url: str, r_code: int = 200, parse_json=True):
         re = self.c.get(url)
         if re.status_code != r_code:
             print(re.content)
         assert r_code == re.status_code
         return re.json() if parse_json else re.content
 
-    def delete(self, url: str, r_code:int =204):
+    def delete(self, url: str, r_code: int = 204):
         re = self.c.delete(url)
         if re.status_code != r_code:
             print(re.content)
         assert r_code == re.status_code
         return re.json() if r_code != 204 else None
 
-    def post(self, url: str, obj: dict ={}, r_code:int =201, raw_response=False, *args, **kwargs):
+    def post(
+        self, url: str, obj: dict = {}, r_code: int = 201, raw_response=False, *args, **kwargs
+    ):
         re = self.c.post(
             url, data=json.dumps(obj), headers={"Content-Type": "application/json"}, *args, **kwargs
         )
@@ -30,14 +32,16 @@ class GenericClient(TestClient):
         assert r_code == re.status_code
         return re.json() if not raw_response else re
 
-    def post_file(self, url: str, file, r_code:int =201, raw_response=False, *args, **kwargs):
+    def post_file(self, url: str, file, r_code: int = 201, raw_response=False, *args, **kwargs):
         re = self.c.post(url, files={"file": file}, *args, **kwargs)
         if re.status_code != r_code:
             print(re.content)
         assert r_code == re.status_code
         return re.json() if not raw_response else re
 
-    def patch(self, url: str, obj: dict ={}, r_code:int =200, raw_response=False, *args, **kwargs):
+    def patch(
+        self, url: str, obj: dict = {}, r_code: int = 200, raw_response=False, *args, **kwargs
+    ):
         re = self.c.patch(
             url, data=json.dumps(obj), headers={"Content-Type": "application/json"}, *args, **kwargs
         )
@@ -46,7 +50,7 @@ class GenericClient(TestClient):
         assert r_code == re.status_code
         return re.json() if not raw_response else re
 
-    def put(self, url: str, obj: dict = {}, r_code:int =200, raw_response=False, *args, **kwargs):
+    def put(self, url: str, obj: dict = {}, r_code: int = 200, raw_response=False, *args, **kwargs):
         re = self.c.put(
             url,
             data=json.dumps(obj),
@@ -103,4 +107,4 @@ class GenericClient(TestClient):
             assert len(re) == 0
 
         # GET
-        self.get(f"{url}{obj_id}", parse_json=False, r_code:int =404)
+        self.get(f"{url}{obj_id}", parse_json=False, r_code=404)
