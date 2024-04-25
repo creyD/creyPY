@@ -36,7 +36,7 @@ def update_obj_from_data(
     model: Type[T],
     id: UUID | str,
     db: Session,
-    partial: bool = False,
+    partial: bool = False,  # TODO: inverse, because it is currently the wrong way around
     ignore_fields=[],
     additional_data={},
     exclude={},
