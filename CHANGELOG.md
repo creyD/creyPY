@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.2.X
+
+- Added order_by method
+
 ## 1.1.0
 
 - Added headers to testing
