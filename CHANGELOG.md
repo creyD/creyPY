@@ -2,7 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## 1.2.X
+## 1.2.3
+
+- Added option to specify lookup_column for get_object_or_404
+
+## 1.2.2
 
 - Added order_by method
 

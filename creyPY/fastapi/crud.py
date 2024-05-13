@@ -10,8 +10,8 @@ from .models.base import Base
 T = TypeVar("T", bound=Base)
 
 
-def get_object_or_404(db_class: Type[T], id: UUID | str, db: Session, expunge: bool = False) -> T:
-    obj = db.query(db_class).filter(db_class.id == id).one_or_none()
+def get_object_or_404(db_class: Type[T], id: UUID | str, db: Session, expunge: bool = False, lookup_column: str = "id") -> T:
+    obj = db.query(db_class).filter(getattr(db_class, lookup_column) == id).one_or_none()
     if obj is None:
         raise HTTPException(status_code=404, detail="The object does not exist.")
     if expunge:
