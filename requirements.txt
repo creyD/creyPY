@@ -1,22 +1,22 @@
-annotated-types>=0.6.0 # Pydantic
-pydantic>=2.6.4 # Pydantic
-pydantic-core>=2.16.3 # Pydantic
-typing-extensions>=4.10.0 # Pydantic
+annotated-types>=0.7.0 # Pydantic
+pydantic>=2.8.2 # Pydantic
+pydantic-core>=2.20.1 # Pydantic
+typing-extensions>=4.12.2 # Pydantic
 
-anyio>=4.3.0 # FastAPI
-fastapi>=0.110.1 # FastAPI
-idna>=3.6 # FastAPI
+anyio>=4.4.0 # FastAPI
+fastapi>=0.111.0 # FastAPI
+idna>=3.7 # FastAPI
 sniffio>=1.3.1 # FastAPI
 starlette>=0.37.2 # FastAPI
 
-fastapi-pagination>=0.12.21 # Pagination
-sqlalchemy>=2.0.29 # SQLAlchemy
+fastapi-pagination>=0.12.26 # Pagination
+sqlalchemy>=2.0.31 # SQLAlchemy
 
 python-dotenv>=1.0.1 # Environment variables
 
-psycopg>=3.1.18 # PostgreSQL
-psycopg-binary>=3.1.18 # PostgreSQL
-psycopg-pool>=3.2.1 # PostgreSQL
+psycopg>=3.2.1 # PostgreSQL
+psycopg-binary>=3.2.1 # PostgreSQL
+psycopg-pool>=3.2.2 # PostgreSQL
 
 h11>=0.14.0 # Testing
 httpcore>=1.0.5 # Testing
