@@ -47,6 +47,7 @@ jobs:
 
   tag_and_publish:
     runs-on: ubuntu-latest
+    if: github.head_ref == 'master' || github.head_ref == 'dev'
     needs: test
     permissions:
       id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
