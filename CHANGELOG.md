@@ -4,8 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## 2.0.0
 
-- Fixed #1 
-- Fixed #3 
+- Fixed #1 Rename misspelled additonal_data to additional_data on create_obj_from_data
+- Fixed #3 Inverse partial flag: bool = False because it was wrong on update_obj_from_data
 
 Notes:
 
