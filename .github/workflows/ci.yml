@@ -81,8 +81,8 @@ jobs:
             git push origin ${{ steps.git_version.outputs.version }}
           elif [ "${{ github.head_ref }}" == "dev" ]; then
             calculatedSha=$(git rev-parse --short ${{ github.sha }})
-            git tag ${{ steps.git_version.outputs.version }}rc${calculatedSha}
-            git push origin ${{ steps.git_version.outputs.version }}rc${calculatedSha}
+            git tag ${{ steps.git_version.outputs.version }}-rc+${calculatedSha}
+            git push origin ${{ steps.git_version.outputs.version }}-rc+${calculatedSha}
           fi
 
       - name: Set up Python
