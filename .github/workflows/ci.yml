@@ -73,12 +73,7 @@ jobs:
 
       - name: Create Tag
         if: github.head_ref == 'master' || github.head_ref == 'dev'
-        run: |
-          if [ "${{ github.head_ref }}" == "master" ]; then
-            git tag ${{ steps.git_version.outputs.version }}
-          elif [ "${{ github.head_ref }}" == "dev" ]; then
-            git tag ${{ steps.git_version.outputs.version }}-rc
-          fi
+        run: git tag ${{ steps.git_version.outputs.version }}
 
       - name: Push tag
         run: git push origin ${{ steps.git_version.outputs.version }}
