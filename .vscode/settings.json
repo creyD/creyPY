@@ -26,10 +26,16 @@
     "**/db.sqlite3": true,
     "**/.DS_Store": true,
     "**/*.pyc": true,
-    "**/__pycache__/": true
+    "**/__pycache__/": true,
+    "**/build": true,
+    "**/dist": true,
+    "**/*.egg-info": true,
   },
   "search.exclude": {
     "**/.git": true,
+    "**/build": true,
+    "**/*.egg-info": true,
+    "**/dist": true,
     "**/.venv": true,
     "**/tmp": true,
     "htmlcov/*": true,
