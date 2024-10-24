@@ -80,8 +80,8 @@ jobs:
             git tag ${{ steps.git_version.outputs.version }}
             git push origin ${{ steps.git_version.outputs.version }}
           elif [ "${{ github.head_ref }}" == "dev" ]; then
-            git tag ${{ steps.git_version.outputs.version }}-rc
-            git push origin ${{ steps.git_version.outputs.version }}-rc
+            git tag ${{ steps.git_version.outputs.version }}-rc.${{ github.sha }}
+            git push origin ${{ steps.git_version.outputs.version }}-rc.${{ github.sha }}
           fi
 
       - name: Set up Python
