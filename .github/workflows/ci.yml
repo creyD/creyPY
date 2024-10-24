@@ -74,11 +74,11 @@ jobs:
           release-branch: ${{ github.head_ref }}
 
       - name: Create Tag
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
+        if: github.head_ref == 'master' || github.head_ref == 'dev'
         run: |
-          if [ "${{ github.ref }}" == "refs/heads/master" ]; then
+          if [ "${{ github.head_ref }}" == "master" ]; then
             git tag ${{ steps.git_version.outputs.version }}
-          elif [ "${{ github.ref }}" == "refs/heads/dev" ]; then
+          elif [ "${{ github.head_ref }}" == "dev" ]; then
             git tag ${{ steps.git_version.outputs.version }}-rc
           fi
 
