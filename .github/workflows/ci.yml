@@ -72,7 +72,7 @@ jobs:
           major-identifier: "breaking:"
 
       - name: Create Tag
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
+        if: github.head_ref == 'master' || github.head_ref == 'dev'
         run: |
           if [ "${{ github.head_ref }}" == "master" ]; then
             git tag ${{ steps.git_version.outputs.version }}
