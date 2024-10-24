@@ -23,9 +23,9 @@ def get_object_or_404(
 
 # TODO: Add testing
 def create_obj_from_data(
-    data: BaseModel, model: Type[T], db: Session, additonal_data={}, exclude={}
+    data: BaseModel, model: Type[T], db: Session, additional_data={}, exclude={}
 ) -> T:
-    obj = model(**data.model_dump(exclude=exclude) | additonal_data)
+    obj = model(**data.model_dump(exclude=exclude) | additional_data)
     db.add(obj)
     db.commit()
     db.refresh(obj)
@@ -38,13 +38,13 @@ def update_obj_from_data(
     model: Type[T],
     id: UUID | str,
     db: Session,
-    partial: bool = False,  # TODO: inverse, because it is currently the wrong way around
+    partial: bool = True,
     ignore_fields=[],
     additional_data={},
     exclude={},
 ) -> T:
     obj = get_object_or_404(model, id, db)
-    data_dict = data.model_dump(exclude_unset=not partial, exclude=exclude)
+    data_dict = data.model_dump(exclude_unset=partial, exclude=exclude)
     data_dict.update(additional_data)  # merge additional_data into data_dict
     for field in data_dict:
         if field not in ignore_fields:
