@@ -23,9 +23,9 @@ def get_object_or_404(
 
 # TODO: Add testing
 def create_obj_from_data(
-    data: BaseModel, model: Type[T], db: Session, additonal_data={}, exclude={}
+    data: BaseModel, model: Type[T], db: Session, additional_data={}, exclude={}
 ) -> T:
-    obj = model(**data.model_dump(exclude=exclude) | additonal_data)
+    obj = model(**data.model_dump(exclude=exclude) | additional_data)
     db.add(obj)
     db.commit()
     db.refresh(obj)
