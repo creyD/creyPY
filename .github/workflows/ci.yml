@@ -73,17 +73,16 @@ jobs:
           major-identifier: "breaking:"
           release-branch: ${{ github.head_ref }}
 
-      - name: Create Tag
+      - name: Create & Push Tag
         if: github.head_ref == 'master' || github.head_ref == 'dev'
         run: |
           if [ "${{ github.head_ref }}" == "master" ]; then
             git tag ${{ steps.git_version.outputs.version }}
+            git push origin ${{ steps.git_version.outputs.version }}
           elif [ "${{ github.head_ref }}" == "dev" ]; then
             git tag ${{ steps.git_version.outputs.version }}-rc
+            git push origin ${{ steps.git_version.outputs.version }}-rc
           fi
-
-      - name: Push tag
-        run: git push origin ${{ steps.git_version.outputs.version }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
