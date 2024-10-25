@@ -71,7 +71,7 @@ jobs:
             echo "V_FORMAT=${major}.${minor}.${patch}" >> $GITHUB_ENV
           elif [[ "${{ github.head_ref }}" == "dev" ]]; then
             echo "V_FORMAT=${major}.${minor}.${patch}-prerelease${increment}" >> $GITHUB_ENV
-          fi"
+          fi
 
       - name: get version format
         run: echo "${{ steps.set_version.outputs.V_FORMAT }}" >> $GITHUB_STEP_SUMMARY
