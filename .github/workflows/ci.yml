@@ -70,7 +70,7 @@ jobs:
           if [[ "${{ github.head_ref }}" == "master" ]]; then
             echo "V_FORMAT=${major}.${minor}.${patch}" >> $GITHUB_ENV
           elif [[ "${{ github.head_ref }}" == "dev" ]]; then
-            echo "V_FORMAT=${major}.${minor}.${patch}-rc${increment}" >> $GITHUB_ENV
+            echo "V_FORMAT=${major}.${minor}.${patch}${increment}" >> $GITHUB_ENV
           fi
 
       - name: Git Version
