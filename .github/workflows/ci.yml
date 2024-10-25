@@ -68,9 +68,9 @@ jobs:
         id: version_format
         run: |
           if [[ ${{ github.head_ref }} == 'master' ]]; then
-            echo "version_format=${major}.${minor}.${patch}" >> $GITHUB_OUTPUT
+            echo "version_format=\${major}.\${minor}.\${patch}" >> $GITHUB_OUTPUT
           else
-            echo "version_format=${major}.${minor}.${patch}rc${increment}" >> $GITHUB_OUTPUT
+            echo "version_format=\${major}.\${minor}.\${patch}rc\${increment}" >> $GITHUB_OUTPUT
           fi
         
       - name: print version format
