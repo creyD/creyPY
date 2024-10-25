@@ -64,6 +64,19 @@ jobs:
           git config --local user.email "15138480+creyD@users.noreply.github.com"
           git config --local user.name "creyD"
 
+      - name: set version format
+        id: version_format
+        run: |
+          if [[ ${{ github.head_ref }} == 'master' ]]; then
+            echo "version_format=${major}.${minor}.${patch}" >> $GITHUB_OUTPUT
+          else
+            echo "version_format=${major}.${minor}.${patch}rc${increment}" >> $GITHUB_OUTPUT
+          fi
+        
+      - name: print version format
+        run: |
+          echo "Version format: ${{ steps.version_format.outputs.version_format }}"
+
       - name: Git Version
         uses: PaulHatch/semantic-version@v5.4.0
         id: git_version
@@ -72,7 +85,7 @@ jobs:
           major_pattern: "breaking:"
           minor_pattern: "feat:"
           enable_prerelease_mode: false
-          version_format: "${major}.${minor}.${patch}rc${increment}"
+          version_format: ${{ steps.version_format.outputs.version_format }}
 
       - name: Create & Push Tag
         if: github.head_ref == 'master' || github.head_ref == 'dev'
