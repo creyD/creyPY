@@ -6,7 +6,6 @@ on:
       - master
       - dev
     paths-ignore:
-      - "**/.github/**"
       - "**/.gitignore"
       - "**/.vscode/**"
       - "**/README.md"
@@ -65,25 +64,30 @@ jobs:
           git config --local user.email "15138480+creyD@users.noreply.github.com"
           git config --local user.name "creyD"
 
+      - name: Set version format
+        id: set_version
+        run: |
+          if [[ "${{ github.head_ref }}" == "master" ]]; then
+            echo "::set-output name=version_format::${major}.${minor}.${patch}"
+          elif [[ "${{ github.head_ref }}" == "dev" ]]; then
+            echo "::set-output name=version_format::${major}.${minor}.${patch}-rc${increment}"
+          fi
+
       - name: Git Version
-        uses: codacy/git-version@2.8.0
+        uses: PaulHatch/semantic-version@v5.4.0
         id: git_version
         with:
-          minor-identifier: "feat:"
-          major-identifier: "breaking:"
-          release-branch: ${{ github.head_ref }}
+          tag_prefix: ""
+          major_pattern: "breaking:"
+          minor_pattern: "feat:"
+          enable_prerelease_mode: false
+          version_format: ${{ steps.set_version.outputs.version_format }}
 
       - name: Create & Push Tag
         if: github.head_ref == 'master' || github.head_ref == 'dev'
         run: |
-          if [ "${{ github.head_ref }}" == "master" ]; then
-            git tag ${{ steps.git_version.outputs.version }}
-            git push origin ${{ steps.git_version.outputs.version }}
-          elif [ "${{ github.head_ref }}" == "dev" ]; then
-            calculatedSha=$(git rev-parse --short ${{ github.sha }})
-            git tag ${{ steps.git_version.outputs.version }}rc.dev${calculatedSha}
-            git push origin ${{ steps.git_version.outputs.version }}rc.dev${calculatedSha}
-          fi
+          git tag ${{ steps.git_version.outputs.version }}
+          git push origin ${{ steps.git_version.outputs.version }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
