@@ -71,8 +71,11 @@ jobs:
             echo "V_FORMAT=${major}.${minor}.${patch}" >> $GITHUB_ENV
           elif [[ "${{ github.head_ref }}" == "dev" ]]; then
             echo "V_FORMAT=${major}.${minor}.${patch}-prerelease${increment}" >> $GITHUB_ENV
-          fi
+          fi"
 
+      - name: get version format
+        run: echo "${{ steps.set_version.outputs.V_FORMAT }}" >> $GITHUB_STEP_SUMMARY
+        
       - name: Git Version
         uses: PaulHatch/semantic-version@v5.4.0
         id: git_version
@@ -81,7 +84,7 @@ jobs:
           major_pattern: "breaking:"
           minor_pattern: "feat:"
           enable_prerelease_mode: false
-          version_format: ${{ steps.set_version.outputs.V_FORMAT }}
+          version_format: "${major}.${minor}.${patch}-prerelease${increment}"
 
       - name: Create & Push Tag
         if: github.head_ref == 'master' || github.head_ref == 'dev'
