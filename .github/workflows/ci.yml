@@ -68,9 +68,9 @@ jobs:
         id: set_version
         run: |
           if [[ "${{ github.head_ref }}" == "master" ]]; then
-            echo "::set-output name=version_format::${major}.${minor}.${patch}"
+            echo "V_FORMAT='${major}.${minor}.${patch}'" >> $GITHUB_OUTPUT
           elif [[ "${{ github.head_ref }}" == "dev" ]]; then
-            echo "::set-output name=version_format::${major}.${minor}.${patch}-rc${increment}"
+            echo "V_FORMAT='${major}.${minor}.${patch}-rc${increment}'" >> $GITHUB_OUTPUT
           fi
 
       - name: Git Version
@@ -81,7 +81,7 @@ jobs:
           major_pattern: "breaking:"
           minor_pattern: "feat:"
           enable_prerelease_mode: false
-          version_format: ${{ steps.set_version.outputs.version_format }}
+          version_format: ${{ steps.set_version.outputs.V_FORMAT }}
 
       - name: Create & Push Tag
         if: github.head_ref == 'master' || github.head_ref == 'dev'
