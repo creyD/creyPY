@@ -72,10 +72,6 @@ jobs:
           else
             echo "version_format=\${major}.\${minor}.\${patch}rc\${increment}" >> $GITHUB_OUTPUT
           fi
-        
-      - name: print version format
-        run: |
-          echo "Version format: ${{ steps.version_format.outputs.version_format }}"
 
       - name: Git Version
         uses: PaulHatch/semantic-version@v5.4.0
