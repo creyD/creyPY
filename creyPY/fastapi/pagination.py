@@ -102,13 +102,12 @@ def paginate(
     transformer: Optional[SyncItemsTransformer] = None,
     additional_data: Optional[AdditionalData] = None,
 ):
-
-    params, raw_params = verify_params(params, "limit-offset", "cursor")
+    params, _ = verify_params(params, "limit-offset", "cursor")
 
     count_query = create_count_query(query)
     total = connection.scalar(count_query)
 
-    if paginationFlag is False:
+    if paginationFlag is False and total > 0:
         params = Params(page=1, size=total)
 
     query = create_paginate_query(query, params)
