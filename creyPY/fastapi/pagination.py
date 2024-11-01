@@ -15,6 +15,7 @@ from fastapi_pagination.ext.sqlalchemy import create_paginate_query
 from pydantic.json_schema import SkipJsonSchema
 from sqlalchemy.sql.selectable import Select
 from sqlalchemy.orm.session import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 
 T = TypeVar("T")
@@ -94,8 +95,8 @@ def unwrap_scalars(
     return [item[0] if force_unwrap else item for item in items]
 
 
-def paginate(
-    connection: Session,
+async def paginate(
+    connection: Union[Session, AsyncSession],
     query: Select,
     paginationFlag: bool = True,
     params: Optional[AbstractParams] = None,
@@ -105,13 +106,25 @@ def paginate(
     params, _ = verify_params(params, "limit-offset", "cursor")
 
     count_query = create_count_query(query)
-    total = connection.scalar(count_query)
+    if isinstance(connection,Session):
+        total = connection.scalar(count_query)
+    elif isinstance(connection, AsyncSession):
+        total = await connection.scalar(count_query)
+    else:
+        raise ValueError("Unsupported session type: db must be AsyncSession or Session")
 
     if paginationFlag is False and total > 0:
         params = Params(page=1, size=total)
 
     query = create_paginate_query(query, params)
-    items = connection.execute(query).all()
+    
+    if isinstance(connection,Session):
+            items = connection.execute(query).all()
+    elif isinstance(connection, AsyncSession):
+        items = await connection.execute(query)
+        items = items.all() 
+    else:
+        raise ValueError("Unsupported session type: db must be AsyncSession or Session")
 
     items = unwrap_scalars(items)
     t_items = apply_items_transformer(items, transformer)
