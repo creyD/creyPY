@@ -122,7 +122,7 @@ def paginate(
     count_query = create_count_query(query)
     total = connection.scalar(count_query)
 
-    if params.pagination is False:
+    if params.pagination is False and total > 0:
         params = Params(page=1, size=total)
     else:
         params = Params(page=params.page, size=params.size)
