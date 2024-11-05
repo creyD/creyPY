@@ -21,6 +21,7 @@ from fastapi import Query
 
 T = TypeVar("T")
 
+
 class PaginationParams(BaseModel, AbstractParams):
     page: int = Query(1, ge=1, description="Page number")
     size: int = Query(50, ge=1, le=100, description="Page size")
@@ -28,13 +29,10 @@ class PaginationParams(BaseModel, AbstractParams):
 
     def to_raw_params(self) -> RawParams:
         if not self.pagination:
-            return RawParams(limit=None, offset=None) 
-        
-        return RawParams(
-            limit=self.size,
-            offset=(self.page - 1) * self.size
-        )
-        
+            return RawParams(limit=None, offset=None)
+
+        return RawParams(limit=self.size, offset=(self.page - 1) * self.size)
+
 
 # TODO: Add complete fastapi-pagination proxy here
 # TODO: Add pagination off functionality
