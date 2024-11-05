@@ -87,15 +87,6 @@ jobs:
           git tag ${{ steps.git_version.outputs.version }}
           git push origin ${{ steps.git_version.outputs.version }}
 
-      - name: Sync tag to dev branch
-        if: github.ref == 'master'
-        run: |
-          git fetch origin dev
-          git checkout dev
-          git merge --no-ff ${{ steps.git_version.outputs.version }}
-          git push origin dev
-          git checkout master
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
