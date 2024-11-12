@@ -17,8 +17,14 @@ SQLALCHEMY_DATABASE_URL = f"postgresql+psycopg://{user}:{password}@{host}:{port}
 
 
 async_engine = create_async_engine(SQLALCHEMY_DATABASE_URL + name, pool_pre_ping=True)
-AsyncSessionLocal = sessionmaker(bind=async_engine, class_=AsyncSession,
-                                expire_on_commit=False, autoflush=False, autocommit=False)
+AsyncSessionLocal = sessionmaker(
+    bind=async_engine,
+    class_=AsyncSession,
+    expire_on_commit=False,
+    autoflush=False,
+    autocommit=False,
+)
+
 
 async def get_async_db() -> AsyncGenerator[AsyncSession, None]:
     async with AsyncSessionLocal() as db:
