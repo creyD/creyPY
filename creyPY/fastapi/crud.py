@@ -151,7 +151,6 @@ def update_obj_from_data(
     exclude={},
 ) -> T:
     def _update_fields(obj: T):
-        # Combine data and exclude ignored fields
         data_dict = data.model_dump(exclude_unset=partial, exclude=exclude)
         data_dict.update(additional_data)
         
@@ -160,7 +159,6 @@ def update_obj_from_data(
                 setattr(obj, field, data_dict[field])
     
     async def _update_async_obj() -> T:
-        # Fetch object asynchronously
         obj = await get_object_or_404(model, id, db)
         _update_fields(obj)
         await db.commit()
@@ -168,7 +166,6 @@ def update_obj_from_data(
         return obj
 
     def _update_sync_obj() -> T:
-        # Fetch object synchronously
         obj = get_object_or_404(model, id, db)
         _update_fields(obj)
         db.commit()
