@@ -36,7 +36,9 @@ class AsyncGenericClient:
         assert r_code == re.status_code
         return re.json() if not raw_response else re
 
-    async def post_file(self, url: str, file, r_code: int = 201, raw_response=False, *args, **kwargs):
+    async def post_file(
+        self, url: str, file, r_code: int = 201, raw_response=False, *args, **kwargs
+    ):
         re = await self.c.post(
             url,
             files={"file": file},
