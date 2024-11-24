@@ -11,6 +11,7 @@ starlette>=0.37.2 # FastAPI
 
 fastapi-pagination>=0.12.26 # Pagination
 sqlalchemy>=2.0.31 # SQLAlchemy
+sqlalchemy-utils==0.41.2  # For managing databases
 
 python-dotenv>=1.0.1 # Environment variables
 
