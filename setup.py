@@ -46,6 +46,7 @@ setup(
         "build": build_requirements,
         "postgres": pg_requirements,
         "auth0": auth0_requirements,
+        "all": build_requirements + pg_requirements + auth0_requirements,
     },
     keywords=[
         "creyPY",
