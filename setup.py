@@ -5,6 +5,12 @@ from setuptools import find_packages, setup
 with open("requirements.txt") as f:
     requirements = f.read().splitlines()
 
+with open("requirements.build.txt") as f:
+    build_requirements = f.read().splitlines()
+
+with open("requirements.pg.txt") as f:
+    pg_requirements = f.read().splitlines()
+
 
 def get_latest_git_tag() -> str:
     try:
@@ -33,6 +39,7 @@ setup(
     license="MIT",
     python_requires=">=3.12",
     install_requires=requirements,
+    extras_require={"build": build_requirements, "postgres": pg_requirements},
     keywords=[
         "creyPY",
         "Python",
@@ -40,7 +47,6 @@ setup(
         "shortcuts",
         "snippets",
         "utils",
-        "personal library",
     ],
     platforms="any",
 )

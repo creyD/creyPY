@@ -58,5 +58,4 @@ print(LanguageEnum.EN.value) # Output: English
 
 ## TODO
 
-- Add async support for database connection
 - Add version without postgresql dependency
