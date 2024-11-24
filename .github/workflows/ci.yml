@@ -45,7 +45,7 @@ jobs:
 
   tag_and_publish:
     runs-on: ubuntu-latest
-    if: github.ref_name == 'master' || github.ref_name == 'dev'
+    if: (github.ref_name == 'master' || github.ref_name == 'dev') && github.event_name == 'push'
     needs: test
     permissions:
       id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
