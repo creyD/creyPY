@@ -54,6 +54,7 @@ def get_user(sub) -> dict:
     re = requests.get(
         f"https://{AUTH0_DOMAIN}/api/v2/users/{sub}",
         headers={"Authorization": f"Bearer {get_management_token()}"},
+        timeout=5,
     )
     if re.status_code != 200:
         raise HTTPException(re.status_code, re.json())
@@ -65,6 +66,7 @@ def patch_user(input_obj: dict, sub) -> dict:
         f"https://{AUTH0_DOMAIN}/api/v2/users/{sub}",
         headers={"Authorization": f"Bearer {get_management_token()}"},
         json=input_obj,
+        timeout=5,
     )
     if re.status_code != 200:
         raise HTTPException(re.status_code, re.json())
@@ -92,6 +94,7 @@ def request_verification_mail(sub: str) -> None:
         f"https://{AUTH0_DOMAIN}/api/v2/jobs/verification-email",
         headers={"Authorization": f"Bearer {get_management_token()}"},
         json={"user_id": sub},
+        timeout=5,
     )
     if re.status_code != 201:
         raise HTTPException(re.status_code, re.json())
@@ -109,6 +112,7 @@ def create_user_invite(email: str) -> dict:
             "verify_email": False,
             "app_metadata": {"invitedToMyApp": True},
         },
+        timeout=5,
     )
     if re.status_code != 201:
         raise HTTPException(re.status_code, re.json())
@@ -124,6 +128,7 @@ def password_change_mail(email: str) -> bool:
             "email": email,
             "connection": "Username-Password-Authentication",
         },
+        timeout=5,
     )
 
     if re.status_code != 200:

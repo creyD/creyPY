@@ -8,7 +8,7 @@ cache = TTLCache(maxsize=100, ttl=600)
 
 @cached(cache)
 def get_management_token() -> str:
-    re = requests.post(
+    response = requests.post(
         f"https://{AUTH0_DOMAIN}/oauth/token",
         json={
             "client_id": AUTH0_CLIENT_ID,
@@ -16,5 +16,6 @@ def get_management_token() -> str:
             "audience": f"https://{AUTH0_DOMAIN}/api/v2/",  # This should be the management audience
             "grant_type": "client_credentials",
         },
+        timeout=5,  # Add a timeout parameter to avoid hanging requests
     ).json()
-    return re["access_token"]
+    return response["access_token"]
