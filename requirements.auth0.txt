@@ -3,5 +3,5 @@ charset-normalizer==3.4.0 # Auth0 API interactions
 requests==2.32.3 # Auth0 API interactions
 pyjwt==2.10.0 # Auth0 API interactions
 cffi==1.17.1 # Auth0 API interactions
-cryptography==43.0.3 # Auth0 API interactions
+cryptography==44.0.0 # Auth0 API interactions
 pycparser==2.22 # Auth0 API interactions
