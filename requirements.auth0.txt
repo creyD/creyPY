@@ -1,7 +1,7 @@
 cachetools==5.5.0 # for caching
 charset-normalizer==3.4.0 # Auth0 API interactions
 requests==2.32.3 # Auth0 API interactions
-pyjwt==2.10.0 # Auth0 API interactions
+pyjwt==2.10.1 # Auth0 API interactions
 cffi==1.17.1 # Auth0 API interactions
 cryptography==43.0.3 # Auth0 API interactions
 pycparser==2.22 # Auth0 API interactions
