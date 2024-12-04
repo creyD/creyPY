@@ -11,16 +11,10 @@ starlette>=0.37.2 # FastAPI
 
 fastapi-pagination>=0.12.26 # Pagination
 sqlalchemy>=2.0.31 # SQLAlchemy
+sqlalchemy-utils>=0.41.2  # For managing databases
 
 python-dotenv>=1.0.1 # Environment variables
-
-psycopg>=3.2.1 # PostgreSQL
-psycopg-binary>=3.2.1 # PostgreSQL
-psycopg-pool>=3.2.2 # PostgreSQL
 
 h11>=0.14.0 # Testing
 httpcore>=1.0.5 # Testing
 httpx>=0.27.0 # Testing
-
-asyncpg>=0.30.0 #SQLAlchemy
-greenlet>=3.1.1 #Async
