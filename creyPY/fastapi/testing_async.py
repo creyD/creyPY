@@ -4,7 +4,9 @@ from httpx import AsyncClient, ASGITransport
 
 class AsyncGenericClient:
     def __init__(self, app):
-        self.c = AsyncClient(transport=ASGITransport(app=app), base_url="http://testserver", follow_redirects=True)
+        self.c = AsyncClient(
+            transport=ASGITransport(app=app), base_url="http://testserver", follow_redirects=True
+        )
         self.default_headers = {}
 
     async def get(self, url: str, r_code: int = 200, parse_json=True):
