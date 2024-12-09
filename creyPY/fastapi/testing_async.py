@@ -1,11 +1,12 @@
 import json
-from httpx import AsyncClient, ASGITransport
+
+from httpx import ASGITransport, AsyncClient
 
 
 class AsyncGenericClient:
-    def __init__(self, app):
+    def __init__(self, app, headers = {}):
         self.c = AsyncClient(transport=ASGITransport(app=app), base_url="http://testserver", follow_redirects=True)
-        self.default_headers = {}
+        self.default_headers = headers
 
     async def get(self, url: str, r_code: int = 200, parse_json=True):
         re = await self.c.get(url, headers=self.default_headers)
