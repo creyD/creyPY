@@ -17,7 +17,10 @@ name = os.getenv("POSTGRES_DB", "fastapi")
 SQLALCHEMY_DATABASE_URL = f"postgresql+psycopg://{user}:{password}@{host}:{port}/"
 
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL + name, pool_pre_ping=True)
+engine = create_engine(SQLALCHEMY_DATABASE_URL + name, pool_pre_ping=True,
+                       connect_args={
+                           'sslmode': 'require'
+                           })
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 

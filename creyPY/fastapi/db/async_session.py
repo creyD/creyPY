@@ -1,9 +1,9 @@
 import os
 from typing import AsyncGenerator
+
 from dotenv import load_dotenv
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
-
 
 load_dotenv()
 
@@ -16,7 +16,10 @@ name = os.getenv("POSTGRES_DB", "fastapi")
 SQLALCHEMY_DATABASE_URL = f"postgresql+psycopg://{user}:{password}@{host}:{port}/"
 
 
-async_engine = create_async_engine(SQLALCHEMY_DATABASE_URL + name, pool_pre_ping=True)
+async_engine = create_async_engine(SQLALCHEMY_DATABASE_URL + name, pool_pre_ping=True,
+                                   connect_args={
+                                       'sslmode': 'require'
+                                       })
 AsyncSessionLocal = sessionmaker(
     bind=async_engine,
     class_=AsyncSession,
