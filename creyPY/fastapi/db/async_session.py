@@ -5,10 +5,9 @@ from sqlalchemy.orm import sessionmaker
 
 from .common import SQLALCHEMY_DATABASE_URL, name
 
-async_engine = create_async_engine(SQLALCHEMY_DATABASE_URL + name, pool_pre_ping=True,
-                                   connect_args={
-                                       'sslmode': 'require'
-                                       })
+async_engine = create_async_engine(
+    SQLALCHEMY_DATABASE_URL + name, pool_pre_ping=True, connect_args={"sslmode": "require"}
+)
 
 AsyncSessionLocal = sessionmaker(
     bind=async_engine,

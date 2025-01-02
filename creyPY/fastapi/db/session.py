@@ -6,10 +6,9 @@ from sqlalchemy.orm.session import Session
 
 from .common import SQLALCHEMY_DATABASE_URL, name
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL + name, pool_pre_ping=True,
-                       connect_args={
-                           'sslmode': 'require'
-                           })
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL + name, pool_pre_ping=True, connect_args={"sslmode": "require"}
+)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
