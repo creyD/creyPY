@@ -35,7 +35,8 @@ class AsyncGenericClient:
         )
         if re.status_code != r_code:
             print(re.content)
-        assert r_code == re.status_code
+        if not raw_response:
+            assert r_code == re.status_code
         return re.json() if not raw_response else re
 
     async def post_file(
