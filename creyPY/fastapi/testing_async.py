@@ -1,4 +1,5 @@
 import json
+
 from httpx import ASGITransport, AsyncClient
 
 
@@ -45,7 +46,7 @@ class AsyncGenericClient:
         re = await self.c.post(
             url,
             files={"file": file},
-            headers=self.default_headers | {"Content-Type": "application/json"},
+            headers=self.default_headers,
             *args,
             **kwargs,
         )
