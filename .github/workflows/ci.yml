@@ -40,12 +40,15 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install --upgrade pip
-      - run: python -m pip install -r requirements.txt
+      - run: |
+          python -m pip install -r requirements.txt
+          python -m pip install -r requirements.pg.txt
+          python -m pip install -r requirements.auth0.txt
       - run: python test.py
 
   tag_and_publish:
     runs-on: ubuntu-latest
-    if: github.ref_name == 'master' || github.ref_name == 'dev'
+    if: (github.ref_name == 'master' || github.ref_name == 'dev') && github.event_name == 'push'
     needs: test
     permissions:
       id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing

@@ -1,11 +1,14 @@
 import json
-from httpx import AsyncClient
+
+from httpx import ASGITransport, AsyncClient
 
 
 class AsyncGenericClient:
-    def __init__(self, app):
-        self.c = AsyncClient(app=app, base_url="http://testserver", follow_redirects=True)
-        self.default_headers = {}
+    def __init__(self, app, headers={}):
+        self.c = AsyncClient(
+            transport=ASGITransport(app=app), base_url="http://testserver", follow_redirects=True
+        )
+        self.default_headers = headers
 
     async def get(self, url: str, r_code: int = 200, parse_json=True):
         re = await self.c.get(url, headers=self.default_headers)
@@ -33,7 +36,8 @@ class AsyncGenericClient:
         )
         if re.status_code != r_code:
             print(re.content)
-        assert r_code == re.status_code
+        if not raw_response:
+            assert r_code == re.status_code
         return re.json() if not raw_response else re
 
     async def post_file(
@@ -42,7 +46,7 @@ class AsyncGenericClient:
         re = await self.c.post(
             url,
             files={"file": file},
-            headers=self.default_headers | {"Content-Type": "application/json"},
+            headers=self.default_headers,
             *args,
             **kwargs,
         )

@@ -41,7 +41,7 @@ class GenericClient(TestClient):
         re = self.c.post(
             url,
             files={"file": file},
-            headers=self.default_headers | {"Content-Type": "application/json"},
+            headers=self.default_headers,
             *args,
             **kwargs,
         )
