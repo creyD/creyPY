@@ -16,8 +16,8 @@ class Base:
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(
         DateTime(timezone=True),
-        default=lambda: datetime.now(timezone.utc),
-        onupdate=lambda: datetime.now(timezone.utc),
+        server_default=func.now(),
+        onupdate=func.now(),
     )
     created_by_id = Column(String)
 
