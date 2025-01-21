@@ -39,7 +39,7 @@ setup(
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     author="Conrad Großer",
-    author_email="conrad@noah.tech",
+    author_email="conrad@grosser.group",
     packages=find_packages(),
     url="https://github.com/creyD/creyPY",
     license="MIT",
