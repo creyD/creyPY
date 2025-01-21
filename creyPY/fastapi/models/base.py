@@ -19,10 +19,21 @@ class Base:
 
     __name__: str
 
-    # TODO: Add default representation string
     # TODO: Add automated foreign key resolution
 
     # Generate __tablename__ automatically
     @declared_attr
     def __tablename__(cls) -> str:
         return cls.__name__.lower()
+
+    def __str__(self) -> str:
+        # if the object has a name, title or similar attribute, return it
+        if hasattr(self, "name"):
+            return str(self.name)  # type: ignore
+
+        # if the object has a title attribute, return it
+        if hasattr(self, "title"):
+            return str(self.title)  # type: ignore
+
+        # otherwise return the object's id
+        return str(self.id)
