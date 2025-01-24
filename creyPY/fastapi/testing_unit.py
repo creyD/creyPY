@@ -3,7 +3,7 @@ import unittest
 from typing import Type
 
 from httpx import ASGITransport, AsyncClient, Response
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy_utils import create_database, database_exists, drop_database
 
@@ -23,7 +23,9 @@ class AbstractTestAPI(unittest.IsolatedAsyncioTestCase):
         print("setting up abstract")
 
     @classmethod
-    def setup_database(cls, sync_db_url: str, async_db_url: str, base: Type[Base]):
+    def setup_database(
+        cls, sync_db_url: str, async_db_url: str, base: Type[Base], btree_gist: bool = False
+    ):
         cls.engine_s = create_engine(
             sync_db_url,
             echo=False,
@@ -33,6 +35,10 @@ class AbstractTestAPI(unittest.IsolatedAsyncioTestCase):
         if database_exists(cls.engine_s.url):
             drop_database(cls.engine_s.url)
         create_database(cls.engine_s.url)
+
+        if btree_gist:
+            with cls.engine_s.begin() as conn:
+                conn.execute(text("CREATE EXTENSION IF NOT EXISTS btree_gist"))
 
         # Migrate
         base.metadata.create_all(cls.engine_s)
