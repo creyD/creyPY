@@ -7,9 +7,11 @@ from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import as_declarative
 from sqlalchemy.sql import func
 
+from .mixins import AutoAnnotateMixin, AutoInitMixin
+
 
 @as_declarative()
-class Base:
+class Base(AutoAnnotateMixin, AutoInitMixin):
     __abstract__ = True
     # Primary key as uuid
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
