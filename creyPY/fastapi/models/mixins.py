@@ -1,4 +1,5 @@
 from sqlalchemy import Column
+from sqlalchemy.orm import Mapped
 
 
 class AutoAnnotateMixin:
@@ -8,7 +9,7 @@ class AutoAnnotateMixin:
         annotations = {}
         for key, value in cls.__dict__.items():
             if isinstance(value, Column):
-                annotations[key] = value.type.python_type
+                annotations[key] = Mapped[value.type.python_type]
         cls.__annotations__ = annotations
 
 
