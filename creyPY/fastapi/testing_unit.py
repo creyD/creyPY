@@ -20,7 +20,6 @@ class AbstractTestAPI(unittest.IsolatedAsyncioTestCase):
             transport=ASGITransport(app=app), base_url="http://testserver", follow_redirects=True
         )
         cls.default_headers = headers
-        print("setting up abstract")
 
     @classmethod
     def setup_database(
@@ -52,7 +51,7 @@ class AbstractTestAPI(unittest.IsolatedAsyncioTestCase):
             async_db_url,
             echo=False,
             pool_pre_ping=True,
-            connect_args={"sslmode": "require"},
+            connect_args={"sslmode": ssl_mode},
         )
 
     async def get(self, url: str, r_code: int = 200, parse_json=True) -> dict | bytes:
