@@ -24,13 +24,18 @@ class AbstractTestAPI(unittest.IsolatedAsyncioTestCase):
 
     @classmethod
     def setup_database(
-        cls, sync_db_url: str, async_db_url: str, base: Type[Base], btree_gist: bool = False
+        cls,
+        sync_db_url: str,
+        async_db_url: str,
+        base: Type[Base],
+        btree_gist: bool = False,
+        ssl_mode: str = "require",
     ):
         cls.engine_s = create_engine(
             sync_db_url,
             echo=False,
             pool_pre_ping=True,
-            connect_args={"sslmode": "require"},
+            connect_args={"sslmode": ssl_mode},
         )
         if database_exists(cls.engine_s.url):
             drop_database(cls.engine_s.url)
