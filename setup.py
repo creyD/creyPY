@@ -14,6 +14,9 @@ with open("requirements.pg.txt") as f:
 with open("requirements.auth0.txt") as f:
     auth0_requirements = f.read().splitlines()
 
+with open("requirements.stripe.txt") as f:
+    stripe_requirements = f.read().splitlines()
+
 
 def get_latest_git_tag() -> str:
     try:
@@ -36,7 +39,7 @@ setup(
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     author="Conrad Großer",
-    author_email="conrad@noah.tech",
+    author_email="code@grosser.group",
     packages=find_packages(),
     url="https://github.com/creyD/creyPY",
     license="MIT",
@@ -46,7 +49,8 @@ setup(
         "build": build_requirements,
         "postgres": pg_requirements,
         "auth0": auth0_requirements,
-        "all": build_requirements + pg_requirements + auth0_requirements,
+        "stripe": stripe_requirements,
+        "all": build_requirements + pg_requirements + auth0_requirements + stripe_requirements,
     },
     keywords=[
         "creyPY",

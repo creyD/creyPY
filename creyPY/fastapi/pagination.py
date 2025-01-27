@@ -1,27 +1,26 @@
+from contextlib import suppress
 from math import ceil
 from typing import Any, Generic, Optional, Self, Sequence, TypeVar, Union, overload
-from contextlib import suppress
-from pydantic import BaseModel
-from fastapi_pagination import Params
-from fastapi_pagination.bases import AbstractPage, AbstractParams
+
+from fastapi import Query
+from fastapi_pagination.api import apply_items_transformer, create_page
+from fastapi_pagination.bases import AbstractPage, AbstractParams, RawParams
+from fastapi_pagination.ext.sqlalchemy import create_paginate_query
 from fastapi_pagination.types import (
+    AdditionalData,
+    AsyncItemsTransformer,
     GreaterEqualOne,
     GreaterEqualZero,
-    AdditionalData,
-    SyncItemsTransformer,
-    AsyncItemsTransformer,
     ItemsTransformer,
+    SyncItemsTransformer,
 )
-from fastapi_pagination.api import create_page, apply_items_transformer
 from fastapi_pagination.utils import verify_params
-from fastapi_pagination.ext.sqlalchemy import create_paginate_query
-from fastapi_pagination.bases import AbstractParams, RawParams
+from pydantic import BaseModel
 from pydantic.json_schema import SkipJsonSchema
-from sqlalchemy.sql.selectable import Select
-from sqlalchemy.orm.session import Session
-from sqlalchemy import select, func
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession, async_scoped_session
-from fastapi import Query
+from sqlalchemy.orm.session import Session
+from sqlalchemy.sql.selectable import Select
 from sqlalchemy.util import await_only, greenlet_spawn
 
 T = TypeVar("T")
@@ -29,7 +28,7 @@ T = TypeVar("T")
 
 class PaginationParams(BaseModel, AbstractParams):
     page: int = Query(1, ge=1, description="Page number")
-    size: int = Query(50, ge=1, le=100, description="Page size")
+    size: int = Query(50, ge=1, description="Page size")
     pagination: bool = Query(True, description="Toggle pagination")
 
     def to_raw_params(self) -> RawParams:
@@ -62,7 +61,7 @@ class Page(AbstractPage[T], Generic[T]):
         total: Optional[int] = None,
         **kwargs: Any,
     ) -> Self:
-        if not isinstance(params, Params):
+        if not isinstance(params, PaginationParams):
             raise TypeError("Page should be used with Params")
 
         size = params.size or total or len(items)
@@ -170,9 +169,9 @@ def _paginate(
     total = connection.scalar(count_query)
 
     if params.pagination is False and total > 0:
-        params = Params(page=1, size=total)
+        params = PaginationParams(page=1, size=total)
     else:
-        params = Params(page=params.page, size=params.size)
+        params = PaginationParams(page=params.page, size=params.size)
 
     query = create_paginate_query(query, params)
     items = connection.execute(query).all()
