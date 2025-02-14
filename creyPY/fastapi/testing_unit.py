@@ -140,7 +140,7 @@ class AbstractTestAPI(unittest.IsolatedAsyncioTestCase):
         pagination: bool = True,
         id_field: str = "id",
         created_at_check: bool = True,
-        patch: dict| None = None,
+        patch: dict | None = None,
     ):
         # GET LIST
         re = await self.get(url)
@@ -171,7 +171,7 @@ class AbstractTestAPI(unittest.IsolatedAsyncioTestCase):
                 input_obj[key] = value
             re = await self.patch(f"{url}{obj_id}/", obj=input_obj)
             for key, value in patch.items():
-                self.assertEqual(re[key],value)
+                self.assertEqual(re[key], value)
 
         # GET LIST
         re = await self.get(url)
