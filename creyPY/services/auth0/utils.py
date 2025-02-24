@@ -101,7 +101,7 @@ def request_verification_mail(sub: str) -> None:
     return re.json()
 
 
-def create_user_invite(email: str, company_id:str) -> dict:
+def create_user_invite(email: str, company_id: str) -> dict:
     re = requests.post(
         f"https://{AUTH0_DOMAIN}/api/v2/users",
         headers={"Authorization": f"Bearer {get_management_token()}"},
@@ -111,7 +111,7 @@ def create_user_invite(email: str, company_id:str) -> dict:
             "password": create_random_password(),
             "verify_email": False,
             "app_metadata": {"invitedToMyApp": True},
-            "user_metadata":{"company_ids":[company_id]}
+            "user_metadata": {"company_ids": [company_id]},
         },
         timeout=5,
     )
