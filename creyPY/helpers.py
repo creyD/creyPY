@@ -17,7 +17,8 @@ def create_random_password(length: int = 12) -> str:
     secrets.SystemRandom().shuffle(password)
     return "".join(password)
 
-def data_to_csv(file: Path, data:list) -> None:
+
+def data_to_csv(file: Path, data: list) -> None:
 
     with file.open(mode="w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=data[0].keys(), delimiter=";")
