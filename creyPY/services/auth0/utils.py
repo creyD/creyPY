@@ -119,6 +119,14 @@ def create_user_invite(email: str, company_id: str) -> dict:
         raise HTTPException(re.status_code, re.json())
     return re.json()
 
+def delete_user_invite(user_id: str) -> None:
+    re = requests.delete(
+        f"https://{AUTH0_DOMAIN}/api/v2/users/{user_id}",
+        headers={"Authorization": f"Bearer {get_management_token()}"},
+        timeout=5,
+    )
+    if re.status_code != 204:
+        raise HTTPException(re.status_code, re.json())
 
 def password_change_mail(email: str) -> bool:
     re = requests.post(
