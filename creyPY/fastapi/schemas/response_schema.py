@@ -36,3 +36,4 @@ class ResponseModelDependency:
         dynamic_model = create_model(f'Dynamic{self.model_class.__name__}', **fields)
         
         return dynamic_model, response_fields, process_result
+    
