@@ -19,14 +19,14 @@ async def get_object_or_404(
     db: AsyncSession,
     expunge: bool = False,
     lookup_column: str = "id",
-    response_fields: Optional[List[str]] = None
+    response_fields: Optional[List[str]] = []
 ) -> T:
     pass
 
 
 @overload
 def get_object_or_404(
-    db_class: Type[T], id: UUID | str, db: Session, expunge: bool = False, lookup_column: str = "id", response_fields: Optional[List[str]] = None
+    db_class: Type[T], id: UUID | str, db: Session, expunge: bool = False, lookup_column: str = "id", response_fields: Optional[List[str]] = []
 ) -> T:
     pass
 
@@ -37,7 +37,7 @@ def get_object_or_404(
     db: Session | AsyncSession,
     expunge: bool = False,
     lookup_column: str = "id",
-    response_fields: Optional[List[str]] = None
+    response_fields: Optional[List[str]] = []
 ) -> T:
 
     async def _get_async_object() -> T:
