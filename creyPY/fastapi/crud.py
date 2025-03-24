@@ -19,14 +19,19 @@ async def get_object_or_404(
     db: AsyncSession,
     expunge: bool = False,
     lookup_column: str = "id",
-    response_fields: List[str] = []
+    response_fields: List[str] = [],
 ) -> T:
     pass
 
 
 @overload
 def get_object_or_404(
-    db_class: Type[T], id: UUID | str, db: Session, expunge: bool = False, lookup_column: str = "id", response_fields: List[str] = []
+    db_class: Type[T],
+    id: UUID | str,
+    db: Session,
+    expunge: bool = False,
+    lookup_column: str = "id",
+    response_fields: List[str] = [],
 ) -> T:
     pass
 
@@ -37,12 +42,14 @@ def get_object_or_404(
     db: Session | AsyncSession,
     expunge: bool = False,
     lookup_column: str = "id",
-    response_fields: List[str] = []
+    response_fields: List[str] = [],
 ) -> T:
 
     async def _get_async_object() -> T:
         if response_fields:
-            selected_columns = [getattr(db_class, field) for field in response_fields if hasattr(db_class, field)]
+            selected_columns = [
+                getattr(db_class, field) for field in response_fields if hasattr(db_class, field)
+            ]
             query = select(*selected_columns).select_from(db_class)
         else:
             query = select(db_class).filter(getattr(db_class, lookup_column) == id)
@@ -56,7 +63,9 @@ def get_object_or_404(
 
     def _get_sync_object() -> T:
         if response_fields:
-            selected_columns = [getattr(db_class, field) for field in response_fields if hasattr(db_class, field)]
+            selected_columns = [
+                getattr(db_class, field) for field in response_fields if hasattr(db_class, field)
+            ]
             query = db.query(*selected_columns).filter(getattr(db_class, lookup_column) == id)
         else:
             query = db.query(db_class).filter(getattr(db_class, lookup_column) == id)
