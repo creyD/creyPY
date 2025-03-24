@@ -1,4 +1,4 @@
-from typing import Type, TypeVar, overload
+from typing import Type, TypeVar, overload, List
 from uuid import UUID
 
 from fastapi import HTTPException
@@ -19,13 +19,14 @@ async def get_object_or_404(
     db: AsyncSession,
     expunge: bool = False,
     lookup_column: str = "id",
+    response_fields: List[str] = []
 ) -> T:
     pass
 
 
 @overload
 def get_object_or_404(
-    db_class: Type[T], id: UUID | str, db: Session, expunge: bool = False, lookup_column: str = "id"
+    db_class: Type[T], id: UUID | str, db: Session, expunge: bool = False, lookup_column: str = "id", response_fields: List[str] = []
 ) -> T:
     pass
 
@@ -36,10 +37,15 @@ def get_object_or_404(
     db: Session | AsyncSession,
     expunge: bool = False,
     lookup_column: str = "id",
+    response_fields: List[str] = []
 ) -> T:
 
     async def _get_async_object() -> T:
-        query = select(db_class).filter(getattr(db_class, lookup_column) == id)
+        if response_fields:
+            selected_columns = [getattr(db_class, field) for field in response_fields if hasattr(db_class, field)]
+            query = select(*selected_columns).select_from(db_class)
+        else:
+            query = select(db_class).filter(getattr(db_class, lookup_column) == id)
         result = await db.execute(query)
         obj = result.scalar_one_or_none()
         if obj is None:
@@ -49,7 +55,12 @@ def get_object_or_404(
         return obj
 
     def _get_sync_object() -> T:
-        obj = db.query(db_class).filter(getattr(db_class, lookup_column) == id).one_or_none()
+        if response_fields:
+            selected_columns = [getattr(db_class, field) for field in response_fields if hasattr(db_class, field)]
+            query = db.query(*selected_columns).filter(getattr(db_class, lookup_column) == id)
+        else:
+            query = db.query(db_class).filter(getattr(db_class, lookup_column) == id)
+        obj = query.one_or_none()
         if obj is None:
             raise HTTPException(status_code=404, detail="The object does not exist.")  # type: ignore
         if expunge:
