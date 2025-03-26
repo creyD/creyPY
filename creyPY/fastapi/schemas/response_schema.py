@@ -21,7 +21,6 @@ class ResponseModelDependency:
                 return result
             else:
                 return {field: getattr(result, field) for field in fields if hasattr(result, field)}
-              
 
         if not response_fields:
             return self.model_class, None, process_result
