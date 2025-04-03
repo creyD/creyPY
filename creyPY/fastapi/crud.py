@@ -50,16 +50,30 @@ def get_object_or_404(
             selected_columns = [
                 getattr(db_class, field) for field in response_fields if hasattr(db_class, field)
             ]
-            query = select(*selected_columns).select_from(db_class)
+            query = select(*selected_columns).where(getattr(db_class, lookup_column) == id)
+            result = await db.execute(query)
+            row = result.first()
+            
+            if row is None:
+                raise HTTPException(status_code=404, detail="The object does not exist.")
+            if hasattr(row, "_mapping"):
+                obj_dict = dict(row._mapping)
+            else:
+                obj_dict = {column.key: getattr(row, column.key) 
+                        for column in selected_columns}
         else:
-            query = select(db_class).filter(getattr(db_class, lookup_column) == id)
-        result = await db.execute(query)
-        obj = result.scalar_one_or_none()
-        if obj is None:
-            raise HTTPException(status_code=404, detail="The object does not exist.")  # type: ignore
+            query = select(db_class).where(getattr(db_class, lookup_column) == id)
+            result = await db.execute(query)
+            row = result.scalar_one_or_none()
+            
+            if row is None:
+                raise HTTPException(status_code=404, detail="The object does not exist.")
+            
+            obj_dict = {k: v for k, v in row.__dict__.items()
+                   if not k.startswith('_')}
         if expunge:
-            await db.expunge(obj)
-        return obj
+            await db.expunge(obj_dict)
+        return obj_dict
 
     def _get_sync_object() -> T:
         if response_fields:
