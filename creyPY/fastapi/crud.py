@@ -1,12 +1,13 @@
-from typing import Type, TypeVar, overload, List
+import asyncio
+from typing import List, Type, TypeVar, overload
 from uuid import UUID
 
 from fastapi import HTTPException
 from pydantic import BaseModel
-from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-import asyncio
+from sqlalchemy.orm import Session
+
 from .models.base import Base
 
 T = TypeVar("T", bound=Base)
@@ -53,21 +54,22 @@ def get_object_or_404(
             query = select(*selected_columns).where(getattr(db_class, lookup_column) == id)
             result = await db.execute(query)
             row = result.first()
+            
             if row is None:
                 raise HTTPException(status_code=404, detail="The object does not exist.")
             if hasattr(row, "_mapping"):
                 obj_dict = dict(row._mapping)
             else:
-                obj_dict = {column.key: getattr(row, column.key) for column in selected_columns}
+                obj_dict = {column.key: getattr(row, column.key) 
+                        for column in selected_columns}
         else:
             query = select(db_class).where(getattr(db_class, lookup_column) == id)
             result = await db.execute(query)
             row = result.scalar_one_or_none()
-
             if row is None:
                 raise HTTPException(status_code=404, detail="The object does not exist.")
-
-            obj_dict = {k: v for k, v in row.__dict__.items() if not k.startswith("_")}
+            
+            obj_dict = row
         if expunge:
             await db.expunge(obj_dict)
         return obj_dict
