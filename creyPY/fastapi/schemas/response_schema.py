@@ -1,6 +1,7 @@
 from typing import List, Optional, Type
-from pydantic import BaseModel, create_model
+
 from fastapi import Query
+from pydantic import BaseModel, create_model
 
 
 class ResponseModelDependency:
@@ -8,8 +9,10 @@ class ResponseModelDependency:
         self.model_class = model_class
 
     def __call__(self, response_fields: Optional[List[str]] = Query(None)) -> Type[BaseModel]:
-        def process_result(result, fields=None):
+        def process_result(result, fields=None, async_session=False):
             if not fields:
+                if async_session:
+                    return {k: v for k, v in result.__dict__.items() if not k.startswith('_')}
                 return result
 
             if hasattr(result, "_fields"):
