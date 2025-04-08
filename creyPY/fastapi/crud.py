@@ -68,7 +68,6 @@ def get_object_or_404(
             row = result.scalar_one_or_none()
             if row is None:
                 raise HTTPException(status_code=404, detail="The object does not exist.")
-            
             obj_dict = row
         if expunge:
             await db.expunge(obj_dict)
