@@ -11,6 +11,6 @@ class BaseSchemaModelIN(BaseModel):
 
 
 class BaseSchemaModelOUT(BaseSchemaModelIN):
-    id: UUID | str
+    id: UUID
     created_at: datetime
     updated_at: datetime
