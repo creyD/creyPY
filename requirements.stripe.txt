@@ -1,1 +1,1 @@
-stripe==12.0.0 # Stripe
+stripe==12.1.0 # Stripe
