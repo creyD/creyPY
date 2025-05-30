@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Invitation</title>
+    <style>
+        body {
+            font-family: 'Avenir Next', Avenir, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #E3E5E7;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+        }
+        .header {
+            background-color: #171953;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .content {
+            padding: 30px;
+            color: #171953;
+            text-align: center;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #5FC85F;
+            color: white;
+            padding: 10px 25px;
+            text-decoration: none;
+            border-radius: 20px;
+        }
+        .footer {
+            background-color: #F5F7F9;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+        }
+        .logo {
+            max-width: 80px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="../templates/assets/noah-Logo-white.svg" alt="Company Logo" class="logo">
+            <h1 style="margin: 0; font-size: 24px;">Company invitation</h1>
+        </div>
+        
+        <div class="content">
+            <p>You have been invited to join the company <br><b>{{ company_name | escape}}</b></br> on our platform at noah:ENERGY. Click on the following link to join the company.</p>
+            
+            <div class="button-container">
+                <a href="{{ invite_url | escape }}" class="button">Join</a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>If you are unsure why you're receiving this, please contact us
+            through our <a href="https://noah.tech/support" style="color:#5FC85F; text-decoration:none">Support Center</a>.</p>
+        </div>
+    </div>
+</body>
+</html>
