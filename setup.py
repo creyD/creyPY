@@ -41,14 +41,6 @@ setup(
     author="Conrad Großer",
     author_email="code@grosser.group",
     packages=find_packages(),
-    package_data={
-        'creyPY.services.aws': [
-            'templates/*.html',
-            'assets/*.svg',
-            'assets/*',
-        ],
-    },
-    include_package_data=True,
     url="https://github.com/creyD/creyPY",
     license="MIT",
     python_requires=">=3.12",
