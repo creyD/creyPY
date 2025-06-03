@@ -8,6 +8,7 @@ AWS_CLIENT_SECRET = os.getenv("AWS_CLIENT_SECRET")
 AWS_SENDER_EMAIL = os.getenv("AWS_SENDER_EMAIL")
 AWS_REGION = os.getenv("AWS_REGION", "eu-central-1")
 
+
 async def send_email_ses(recipient_email, subject, html_body):
     ses_client = boto3.client(
         "ses",
