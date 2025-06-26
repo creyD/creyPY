@@ -146,19 +146,20 @@ def password_change_mail(email: str) -> bool:
         raise HTTPException(re.status_code, re.json())
     return True
 
+
 def user_password_change_ticket(user_id: str) -> str:
     re = requests.post(
         f"https://{AUTH0_DOMAIN}/api/v2/tickets/password-change",
         headers={"Authorization": f"Bearer {get_management_token()}"},
         json={
-            "user_id":user_id,
+            "user_id": user_id,
             "client_id": AUTH0_CLIENT_ID,
             "ttl_sec": 0,
             "mark_email_as_verified": False,
-            "includeEmailInRedirect": False
+            "includeEmailInRedirect": False,
         },
         timeout=5,
     )
     if re.status_code != 201:
         raise HTTPException(re.status_code, re.json())
-    return re.json()['ticket']
+    return re.json()["ticket"]
