@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, String
+from sqlalchemy import Column, DateTime, PrimaryKeyConstraint, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import as_declarative
@@ -22,6 +22,11 @@ class Base(AutoAnnotateMixin, AutoInitMixin):
     __name__: str
 
     # TODO: Add automated foreign key resolution
+
+    # Add name to primary key constraint to ensure alembic can pick it up later
+    @declared_attr
+    def __table_args__(cls):
+        return (PrimaryKeyConstraint("id", name=f"pk_{cls.__tablename__}"),)
 
     # Generate __tablename__ automatically
     @declared_attr
