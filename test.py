@@ -7,9 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from creyPY.fastapi.app import generate_unique_id
-from creyPY.fastapi.crud import (
-    get_object_or_404,
-)
+from creyPY.fastapi.crud import get_object_or_404
 from creyPY.fastapi.models.base import Base
 
 
@@ -65,7 +63,7 @@ class TestMyFunction(unittest.TestCase):
     def test_get_object_or_404_existing_object(self):
         # Arrange
         obj_id = UUID("123e4567-e89b-12d3-a456-426614174000")
-        obj = MockDBClass(obj_id)
+        obj = MockDBClass(id=obj_id)
         self.db.add(obj)
         self.db.commit()
 

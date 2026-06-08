@@ -101,7 +101,7 @@ def request_verification_mail(sub: str) -> None:
     return re.json()
 
 
-def create_user_invite(email: str) -> dict:
+def create_user_invite(email: str, company_id: str) -> dict:
     re = requests.post(
         f"https://{AUTH0_DOMAIN}/api/v2/users",
         headers={"Authorization": f"Bearer {get_management_token()}"},
@@ -111,12 +111,23 @@ def create_user_invite(email: str) -> dict:
             "password": create_random_password(),
             "verify_email": False,
             "app_metadata": {"invitedToMyApp": True},
+            "user_metadata": {"company_ids": [company_id]},
         },
         timeout=5,
     )
     if re.status_code != 201:
         raise HTTPException(re.status_code, re.json())
     return re.json()
+
+
+def delete_user_invite(user_id: str) -> None:
+    re = requests.delete(
+        f"https://{AUTH0_DOMAIN}/api/v2/users/{user_id}",
+        headers={"Authorization": f"Bearer {get_management_token()}"},
+        timeout=5,
+    )
+    if re.status_code != 204:
+        raise HTTPException(re.status_code, re.json())
 
 
 def password_change_mail(email: str) -> bool:
@@ -134,3 +145,21 @@ def password_change_mail(email: str) -> bool:
     if re.status_code != 200:
         raise HTTPException(re.status_code, re.json())
     return True
+
+
+def user_password_change_ticket(user_id: str) -> str:
+    re = requests.post(
+        f"https://{AUTH0_DOMAIN}/api/v2/tickets/password-change",
+        headers={"Authorization": f"Bearer {get_management_token()}"},
+        json={
+            "user_id": user_id,
+            "client_id": AUTH0_CLIENT_ID,
+            "ttl_sec": 0,
+            "mark_email_as_verified": False,
+            "includeEmailInRedirect": False,
+        },
+        timeout=5,
+    )
+    if re.status_code != 201:
+        raise HTTPException(re.status_code, re.json())
+    return re.json()["ticket"]
